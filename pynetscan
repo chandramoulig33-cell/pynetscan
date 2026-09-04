@@ -1,0 +1,38 @@
+# PyNetScan - Local Network Analyzer
+# Developed by Nitin | For Educational Purpose - Use only on your own network
+
+from scapy.all import ARP, Ether, srp
+import socket
+
+def scan_network(ip_range="192.168.1.1/24"):
+    print(f"[*] Scanning network: {ip_range}")
+    arp = ARP(pdst=ip_range)
+    ether = Ether(dst="ff:ff:ff:ff:ff:ff")
+    packet = ether/arp
+    result = srp(packet, timeout=2, verbose=0)[0]
+
+    devices = []
+    print("\n--- Active Devices Found ---")
+    print("IP Address\t\tMAC Address")
+    for sent, received in result:
+        print(f"{received.psrc}\t{received.hwsrc}")
+        devices.append(received.psrc)
+    return devices
+
+def scan_ports(ip):
+    print(f"\n[*] Scanning common ports for {ip}")
+    ports = [22, 80, 443, 8080]
+    for port in ports:
+        s = socket.socket()
+        s.settimeout(1)
+        try:
+            s.connect((ip, port))
+            print(f"Port {port}: OPEN ✅")
+            s.close()
+        except:
+            print(f"Port {port}: Closed")
+
+if __name__ == "__main__":
+    active_ips = scan_network("192.168.1.1/24")
+    if active_ips:
+        scan_ports(active_ips[0])
