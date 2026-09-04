@@ -14,4 +14,4 @@ python pynetscan.py
 ## Ethical Use Only
 Use this tool ONLY on your own network for learning purpose.
 
-Developed by M. Nitin Kumar | Aspiring Network Engineer | Cisco Enthusiast
+Developed by CHANDRA MOULI | Aspiring Network Engineer | Cisco Enthusiast
